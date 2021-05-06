@@ -1,0 +1,75 @@
+<?php
+
+namespace App\Http\Controllers\Admin;
+
+use App\Http\Requests\CrudAdminRequests\CrudFilterRequest;
+use Backpack\CRUD\app\Http\Controllers\CrudController;
+use Backpack\CRUD\app\Http\Controllers\Operations\ListOperation;
+use Backpack\CRUD\app\Http\Controllers\Operations\ReorderOperation;
+use Backpack\CRUD\app\Http\Controllers\Operations\ShowOperation;
+use Backpack\CRUD\app\Http\Controllers\Operations\CreateOperation;
+use Backpack\CRUD\app\Http\Controllers\Operations\UpdateOperation;
+use Backpack\CRUD\app\Http\Controllers\Operations\DeleteOperation;
+
+class FilterCrudController extends CrudController
+{
+    use ListOperation;
+    use ShowOperation;
+    use CreateOperation;
+    use UpdateOperation;
+    use DeleteOperation;
+    use ReorderOperation;
+
+    public function setup(): void
+    {
+        $this->crud->setModel("App\Models\Filter");
+        $this->crud->setRoute(config('backpack.base.route_prefix') . '/filters');
+        $this->crud->setEntityNameStrings('Фильтер', 'Фильтры');
+        $this->crud->setValidation(CrudFilterRequest::class);
+//    }
+        // -------------------------
+        // ------ CRUD COLUMNS ------
+        // -------------------------
+        $this->crud->addColumns([
+            [
+                'type' => 'number',
+                'name' => 'id',
+                'label' => 'Filter Id',
+            ],
+            [
+                'type' => 'text',
+                'name' => 'title',
+                'label' => 'Title',
+            ],
+        ]);
+
+        // -------------------------
+        // ------ CRUD FIELDS ------
+        // -------------------------
+
+        $this->crud->addFields([
+            [
+                'type' => 'text',
+                'name' => 'title',
+                'label' => 'Name',
+            ],
+            [
+                'name' => 'Category',
+                'type' => 'select',
+                'label' => 'Email',
+                'entity' => 'category',
+                'model' => 'App\Models\Category',
+                'attribute' => 'name',
+            ],
+        ]);
+    }
+
+    protected function setupReorderOperation()
+    {
+        // define which model attribute will be shown on draggable elements
+        $this->crud->set('reorder.label', 'title');
+        // define how deep the admin is allowed to nest the items
+        // for infinite levels, set it to 0
+        $this->crud->set('reorder.max_level', 2);
+    }
+}
