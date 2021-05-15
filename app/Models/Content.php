@@ -30,6 +30,6 @@ class Content extends Model
     ];
 
     protected $casts = [
-        'schema' => 'array',
+//        'schema' => 'array',
     ];
 }
