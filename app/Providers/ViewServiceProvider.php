@@ -43,7 +43,7 @@ class ViewServiceProvider extends ServiceProvider
         View::composer('black-shop.cart', CategoryComposer::class);
         View::composer('black-shop.checkout', CategoryComposer::class);
         View::composer('black-shop.shop-list', CategoryComposer::class);
-//        View::composer('black-shop.shop-list', BrandComposer::class);
+        View::composer('black-shop.shop-list', BrandComposer::class);
         View::composer('black-shop.about-us', CategoryComposer::class);
         View::composer('black-shop.account-login', CategoryComposer::class);
         View::composer('black-shop.terms-and-conditions', CategoryComposer::class);

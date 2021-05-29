@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Auth\AuthController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\OrderController;
@@ -9,7 +10,6 @@ use App\Http\Controllers\UserController;
 use App\Http\Controllers\SubscribeController;
 use App\Http\Controllers\CartController;
 use App\Http\Controllers\ReviewController;
-use App\Http\Controllers\FilterController;
 
 /*
 |--------------------------------------------------------------------------
@@ -21,6 +21,9 @@ use App\Http\Controllers\FilterController;
 | contains the "web" middleware group. Now create something great!
 |
 */
+
+Auth::routes();
+
 Route::group(
     [
         'prefix' => LaravelLocalization::setLocale(),
@@ -28,12 +31,11 @@ Route::group(
     ], function()
 {
 
-
     Route::get('/api/attribute', [ProductController::class, 'getAll']);
     Route::get('/api/attribute/{id}', [ProductController::class, 'show']);
 
-    Route::get('priceFilter', [ProductController::class, 'searchProduct'])->name('priceFilter');
-    Route::get('brand/filter', [ProductController::class, 'searchProduct'])->name('brand.filter');
+    Route::get('priceFilter', [ProductController::class, 'priceFilter'])->name('priceFilter');
+    Route::get('brand/filter', [ProductController::class, 'brandFilter'])->name('brand.filter');
 
     Route::get('/', [ProductController::class, 'index'])->name('index');
     Route::get('product/{id}', [ProductController::class, 'getProduct'])->name('getProduct');
@@ -135,7 +137,7 @@ Route::group(
         return view('black-shop.track-order');
     });
 
-    Route::get('logout', [\App\Http\Controllers\Auth\AuthController::class, 'logout'])->name('account.logout');
+    Route::get('logout', [AuthController::class, 'logout'])->name('account.logout');
 });
 Route::prefix('b-shop')->group(function () {
 
@@ -143,7 +145,8 @@ Route::prefix('b-shop')->group(function () {
 
 
 
-Auth::routes();
+Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 
+Auth::routes();
 
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');

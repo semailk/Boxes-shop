@@ -3,10 +3,18 @@
 namespace App\Http\Controllers;
 
 use App\Models\Product;
+use App\Service\CartService;
 use Illuminate\Http\Request;
 
 class CartController extends Controller
 {
+    private CartService $cartService;
+
+    public function __construct(CartService $cartService)
+    {
+        $this->cartService = $cartService;
+    }
+
     public function index()
     {
         return view('black-shop.cart');
@@ -14,42 +22,10 @@ class CartController extends Controller
 
     public function addCart(Request $request)
     {
-        $product = Product::where('id', $request->id)->first();
-        $quantityDefault = 1;
+        $product = Product::findOrFail($request->id);
         if (! isset($_COOKIE['cart_id'])) setcookie('cart_id', uniqid());
-        $cart_id = $_COOKIE['cart_id'];
-        \Cart::session($cart_id);
 
-        if ($request->quantity > $quantityDefault) {
-            $quantityDefault = $request->quantity;
-        }
-        $productQuantity = Product::find($request->id)->stock_quantity;
-        $sessionCartQuantitySum = \Cart::session($_COOKIE['cart_id'])->get($request->id);
-
-        if (empty($sessionCartQuantitySum)) {
-            \Cart::add([
-                'id' => $product->id,
-                'name' => 'null',
-                'price' => $product->regular_price,
-                'quantity' => $quantityDefault,
-                'attributes' => [
-                    'img' => $product->gallery[0],
-                ],
-            ]);
-        }
-        if ($sessionCartQuantitySum->quantity == $productQuantity) {
-            return false;
-        }
-        \Cart::add([
-            'id' => $product->id,
-            'name' => 'null',
-            'price' => $product->regular_price,
-            'quantity' => $quantityDefault,
-            'attributes' => [
-                'img' => $product->gallery[0],
-            ],
-        ]);
-        return response()->json(['data' => \Cart::session($_COOKIE['cart_id'])->getContent()]);
+        return $this->cartService->addProductToBasket($_COOKIE['cart_id'], $product, $request->quantity);
     }
 
     public function deleteCart(Request $request)
@@ -66,7 +42,7 @@ class CartController extends Controller
         } elseif (isset($request->delete_quantity)) {
             \Cart::session($_COOKIE['cart_id'])->update($request->id, ['quantity' => -1]);
         }
-        return response()->json(\Cart::getContent());
+        return response()->json($request->id);
     }
 
     public

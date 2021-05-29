@@ -10,6 +10,7 @@ use App\Models\Review;
 use App\Service\ProductFilter;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Session;
+use View;
 
 class ProductController extends Controller
 {
@@ -80,23 +81,37 @@ class ProductController extends Controller
 
     public function searchProduct(Request $request)
     {
-        $categories = [];
-        if (!$request->has(['price_from', 'price_to'])){
-            $products = $this->productFilter->brandFilter($request);
-            $categories = $this->productFilter->returnCategory($products);
-        }
-        if ($request->has(['price_from', 'price_to']))
-        {
-            $products = $this->productFilter->priceFilter($request);
-            $categories = $this->productFilter->returnCategory($products);
-        }
 
-        $brands = Brand::all();
+        $products = Product::where('name', 'LIKE', '%' . $request->search . '%')->paginate(50);
 
         return view('black-shop.shop-list', [
             'products' => $products,
-            'categories' => $categories,
-            'brands' => $brands,
+        ]);
+    }
+
+    /**
+     * @param Request $request
+     * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View
+     */
+    public function priceFilter(Request $request): \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View
+    {
+        $products = $this->productFilter->priceFilter($request);
+
+        return view('black-shop.shop-list', [
+            'products' => $products,
+        ]);
+    }
+
+    /**
+     * @param Request $request
+     * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View
+     */
+    public function brandFilter(Request $request): \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View
+    {
+        $products = $this->productFilter->brandFilter($request);
+
+        return view('black-shop.shop-list', [
+            'products' => $products,
         ]);
     }
 
@@ -110,12 +125,9 @@ class ProductController extends Controller
         $search_term = $request->input('q');
         $page = $request->input('page');
 
-        if ($search_term)
-        {
-            $results = Attribute::where('title', 'LIKE', '%'.$search_term.'%')->paginate(10);
-        }
-        else
-        {
+        if ($search_term) {
+            $results = Attribute::where('title', 'LIKE', '%' . $search_term . '%')->paginate(10);
+        } else {
             $results = Attribute::paginate(10);
         }
 

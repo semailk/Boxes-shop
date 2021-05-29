@@ -37,8 +37,8 @@
                                         <div class="profile-card__avatar">
                                             <img src="{{ asset('storage/' . $userAvatar) }}" alt="">
                                         </div>
-                                        <div class="profile-card__name">Helena Garcia</div>
-                                        <div class="profile-card__email">stroyka@example.com</div>
+                                        <div class="profile-card__name">{{Auth::user()->name}}</div>
+                                        <div class="profile-card__email">{{Auth::user()->email}}</div>
                                         <div class="profile-card__edit">
                                             <form action="{{ route('account.avatar.upload') }}" method="POST" enctype="multipart/form-data">
                                                 @csrf
@@ -51,28 +51,28 @@
                                     </div>
                                 </div>
                                 <img src="{{ asset('storage/' . $userAvatar->avatar)}} }}" alt="">
-                                <div class="dashboard__address card address-card address-card--featured">
-                                    <div class="address-card__badge">Default Address</div>
-                                    <div class="address-card__body">
-                                        <div class="address-card__name">Helena Garcia</div>
-                                        <div class="address-card__row">
-                                            Random Federation<br>
-                                            115302, Moscow<br>
-                                            ul. Varshavskaya, 15-2-178
-                                        </div>
-                                        <div class="address-card__row">
-                                            <div class="address-card__row-title">Phone Number</div>
-                                            <div class="address-card__row-content">38 972 588-42-36</div>
-                                        </div>
-                                        <div class="address-card__row">
-                                            <div class="address-card__row-title">Email Address</div>
-                                            <div class="address-card__row-content">stroyka@example.com</div>
-                                        </div>
-                                        <div class="address-card__footer">
-                                            <a href="account-edit-address.html">Edit Address</a>
-                                        </div>
-                                    </div>
-                                </div>
+{{--                                <div class="dashboard__address card address-card address-card--featured">--}}
+{{--                                    <div class="address-card__badge">Default Address</div>--}}
+{{--                                    <div class="address-card__body">--}}
+{{--                                        <div class="address-card__name">Helena Garcia</div>--}}
+{{--                                        <div class="address-card__row">--}}
+{{--                                            Random Federation<br>--}}
+{{--                                            115302, Moscow<br>--}}
+{{--                                            ul. Varshavskaya, 15-2-178--}}
+{{--                                        </div>--}}
+{{--                                        <div class="address-card__row">--}}
+{{--                                            <div class="address-card__row-title">Phone Number</div>--}}
+{{--                                            <div class="address-card__row-content">38 972 588-42-36</div>--}}
+{{--                                        </div>--}}
+{{--                                        <div class="address-card__row">--}}
+{{--                                            <div class="address-card__row-title">Email Address</div>--}}
+{{--                                            <div class="address-card__row-content">stroyka@example.com</div>--}}
+{{--                                        </div>--}}
+{{--                                        <div class="address-card__footer">--}}
+{{--                                            <a href="account-edit-address.html">Edit Address</a>--}}
+{{--                                        </div>--}}
+{{--                                    </div>--}}
+{{--                                </div>--}}
                                 <div class="dashboard__orders card">
                                     <div class="card-header">
                                         <h5>Recent Orders</h5>

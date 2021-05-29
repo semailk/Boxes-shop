@@ -77,18 +77,18 @@
                                                                             class="filter-categories__counter">{{count($category->products)}}</div>
                                                                     </li>
                                                                 @endforeach
-                                                                @else
-                                                                    <li class="filter-categories__item filter-categories__item--parent">
-                                                                        <svg class="filter-categories__arrow"
-                                                                             width="6px"
-                                                                             height="9px">
-                                                                            <use
-                                                                                xlink:href="images/sprite.svg#arrow-rounded-left-6x9"></use>
-                                                                        </svg>
-                                                                        <a href="{{route('getShopList', $category->id)}}">{{$category->name}}</a>
-                                                                        <div
-                                                                            class="filter-categories__counter">{{count($category->products)}}</div>
-                                                                    </li>
+{{--                                                                @else--}}
+{{--                                                                    <li class="filter-categories__item filter-categories__item--parent">--}}
+{{--                                                                        <svg class="filter-categories__arrow"--}}
+{{--                                                                             width="6px"--}}
+{{--                                                                             height="9px">--}}
+{{--                                                                            <use--}}
+{{--                                                                                xlink:href="images/sprite.svg#arrow-rounded-left-6x9"></use>--}}
+{{--                                                                        </svg>--}}
+{{--                                                                        <a href="{{route('getShopList', $category->id)}}">{{$category->name}}</a>--}}
+{{--                                                                        <div--}}
+{{--                                                                            class="filter-categories__counter">{{count($category->products)}}</div>--}}
+{{--                                                                    </li>--}}
                                                             @endif
                                                             {{--                                                                    <li class="filter-categories__item filter-categories__item--parent">--}}
                                                             {{--                                                                        <svg class="filter-categories__arrow" width="6px" height="9px">--}}
@@ -359,12 +359,6 @@
                                                                value="@if(request()->has('price_from')) {{request()->price_from}} @endif">
                                                         <input type="text" name="price_to" class="form-control mt-2"
                                                                value="@if(request()->has('price_to')) {{request()->price_to}} @endif">
-                                                        {{--                                                    <div id="filter__container" class="filter-price" data-min="0" data-max="3000"--}}
-                                                        {{--                                                         data-from="100" data-to="2000">--}}
-                                                        {{--                                                        <div class="filter-price__slider"></div>--}}
-                                                        {{--                                                        <div class="filter-price__title">Price: $<span--}}
-                                                        {{--                                                                class="filter-price__min-value"></span> – $<span--}}
-                                                        {{--                                                                class="filter-price__max-value"></span></div>--}}
                                                         <button type="submit" class="btn btn-primary mt-2">Фильтровать
                                                         </button>
                                                     </div>

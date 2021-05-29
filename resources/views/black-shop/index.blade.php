@@ -154,6 +154,7 @@
             <div class="block-products-carousel__slider">
                 <div class="block-products-carousel__preloader"></div>
                 <div class="owl-carousel">
+
                     @foreach($products as $product)
                         @if(is_null($product->sale_percentage))
                             <div class="block-products-carousel__column">
